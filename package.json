@@ -1,0 +1,25 @@
+{
+  "name": "cli-chatgpt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arifin N",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "chalk": "^4.1.2",
+    "dotenv": "^16.0.3",
+    "loading-cli": "^1.1.0",
+    "marked": "^5.0.2",
+    "marked-terminal": "^5.2.0",
+    "prompt-sync": "^4.2.0",
+    "prompt-sync-history": "^1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arifinofficial/cli-chatgpt.git"
+  }
+}
