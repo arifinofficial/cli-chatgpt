@@ -8,7 +8,8 @@ const prompt = require("prompt-sync")({
 });
 const marked = require("marked");
 const chalk = require("chalk");
-const loading =  require('loading-cli');
+const loading = require("loading-cli");
+const Box = require("cli-box");
 
 const apiKey = process.env.OPENAI_API_KEY;
 const apiUrl = process.env.OPENAI_API_URL;
@@ -23,7 +24,7 @@ if (!apiKey) {
 }
 
 const ready = async () => {
-  const message = prompt("Send a message: ");
+  const message = prompt(chalk.cyan("Send a prompt: "));
   fetchApi(message);
 };
 
@@ -38,24 +39,41 @@ const fetchApi = async (message) => {
     Authorization: `Bearer ${apiKey}`,
   };
 
+  const load = loading("loading...").start();
+
   try {
-    const load = loading("loading...").start();
     const response = await axios.post(apiUrl, body, { headers: headers });
     const choices = response.data.choices;
-    load.stop()
-    
+    load.stop();
+
+    const markOpt = {
+      nw: "",
+      n: "-",
+      ne: "",
+      e: "",
+      se: "",
+      s: "-",
+      sw: "",
+      w: "",
+      b: "",
+    };
+
     choices.forEach((choice) => {
-      console.log('\n' + 
+      const responseBox = Box(
+        { fullscreen: true, marks: markOpt },
+        "\n" +
           marked.parse(choice.message.content, {
             mangle: false,
             headerIds: false,
           })
       );
+      console.log(responseBox + "\n");
     });
-    
+
     ready();
   } catch (error) {
     console.log(chalk.red(error));
+    load.stop();
   }
 };
 
